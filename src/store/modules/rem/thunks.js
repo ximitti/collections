@@ -12,7 +12,9 @@ export const remStartThunk = () => async (dispatch) => {
   try {
     const response = await axios.get(API_REM);
 
-    dispatch(remStart(response));
+    const newData = { ...response.data };
+
+    dispatch(remStart(newData));
   } catch (e) {
     console.log(e);
   }
@@ -22,9 +24,11 @@ export const remNextThunk = () => async (dispatch, getStore) => {
   const { remAPI } = getStore();
 
   try {
-    const response = await axios.get(remAPI.data.info.next);
+    const response = await axios.get(remAPI.info.next);
 
-    dispatch(remNext(response));
+    const newData = { ...response.data };
+
+    dispatch(remNext(newData));
   } catch (e) {
     console.log(e);
   }
@@ -34,9 +38,11 @@ export const remPreviousThunk = () => async (dispatch, getStore) => {
   const { remAPI } = getStore();
 
   try {
-    const response = await axios.get(remAPI.data.info.prev);
+    const response = await axios.get(remAPI.info.prev);
 
-    dispatch(remPrevious(response));
+    const newData = { ...response.data };
+
+    dispatch(remPrevious(newData));
   } catch (e) {
     console.log(e);
   }

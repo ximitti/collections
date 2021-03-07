@@ -1,0 +1,82 @@
+// material ui
+import {
+  Card,
+  CardMedia,
+  Button,
+  CardContent,
+  CardActions,
+  Typography,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+
+// react redux
+import { useDispatch } from "react-redux";
+
+// thunks
+import {
+  remAddFavThunk,
+  remRemoveFavThunk,
+} from "../../store/modules/remFavorite/thunks";
+//------------------------------------------
+const useStyles = makeStyles({
+  cardStyles: {
+    maxWidth: 200,
+    maxHeight: 300,
+    minWidth: 200,
+    minHeight: 300,
+    width: "100%",
+    height: "100%",
+    border: "1px solid black",
+  },
+  mediaStyles: {
+    height: 190,
+  },
+  contentStyles: {
+    height: 35,
+    alignItems: "center",
+  },
+  actionStyles: {
+    justifyContent: "center",
+  },
+});
+//------------------------------------------
+const CardItem = ({ character, favorite = false }) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const onAdd = () => {
+    dispatch(remAddFavThunk(character));
+  };
+
+  const onRemove = () => {
+    dispatch(remRemoveFavThunk(character.id));
+  };
+
+  return (
+    <Card className={classes.cardStyles}>
+      <CardMedia
+        className={classes.mediaStyles}
+        image={character.image}
+        title={character.name}
+      />
+      <CardContent className={classes.contentStyles}>
+        <Typography gutterBottom variant="subtitle1" component="h3">
+          {character.name}
+        </Typography>
+      </CardContent>
+      <CardActions className={classes.actionStyles}>
+        {favorite ? (
+          <Button onClick={onRemove} size="small" color="primary">
+            Remover
+          </Button>
+        ) : (
+          <Button onClick={onAdd} size="small" color="primary">
+            Adicionar
+          </Button>
+        )}
+      </CardActions>
+    </Card>
+  );
+};
+
+export default CardItem;

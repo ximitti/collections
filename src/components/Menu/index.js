@@ -91,7 +91,7 @@ const MenuBar = () => {
               <MenuItem onClick={() => sendTo("/rem")}>Rick & Morty</MenuItem>
               <MenuItem onClick={() => sendTo("/pokemon")}>Pokemon</MenuItem>
               <Divider orientation="vertical" flexItem />
-              <MenuItem onClick={() => sendTo("/favoritos")}>
+              <MenuItem onClick={() => sendTo("/favorites")}>
                 Favoritos
               </MenuItem>
             </>

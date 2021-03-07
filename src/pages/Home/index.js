@@ -1,22 +1,73 @@
 // material ui
-import { Box } from "@material-ui/core";
+import { Grid, Card, CardMedia } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
+// framer motion
+import { motion } from "framer-motion";
+//----------------------------------------------
+const useStyles = makeStyles((theme) => ({
+  containerStyles: {
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      minWidth: 300,
+    },
+    [theme.breakpoints.up("sm")]: {
+      minWidth: 1000,
+    },
+  },
+  cardStyles: {
+    width: "100%",
+  },
+  mediaStyles: {
+    height: 0,
+    paddingTop: "56.25%",
+  },
+}));
+
+//----------------------------------------------
 const Home = () => {
+  const classes = useStyles();
+
   return (
-    <Box display="flex" flexDirection="column">
-      <Box
-        display="flex"
-        flexDirection={{ xs: "column", sm: "row" }}
-        width="100%"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Grid
+        className={classes.containerStyles}
+        container
+        direction="column"
+        alignItems="center"
+        spacing={2}
       >
-        <Box display={{xs: "block", sm: "flex"}} width={{xs: "100%", sm: "50%"}} border={1}></Box>
-        <Box dispaly={{xs: "none", sm: "flex"}} width={{xs: "0", sm: "50%"}}></Box>
-      </Box>
-      <Box>
-        <Box dispaly={{xs: "none", sm: "flex"}} width={{xs: "0", sm: "50%"}}></Box>
-        <Box display={{xs: "block", sm: "flex"}} width={{xs: "100%", sm: "50%"}} border={1}></Box>
-      </Box>
-    </Box>
+        <Grid item container>
+          <Grid item xs={12} sm={6}>
+            <Card className={classes.cardStyles}>
+              <CardMedia
+                className={classes.mediaStyles}
+                image="/images/rem_w.jpg"
+                title="Rick & Morty"
+              />
+            </Card>
+          </Grid>
+          <Grid item xs={false} sm={6} />
+        </Grid>
+        <Grid item container>
+          <Grid item xs={false} sm={6} />
+          <Grid item xs={12} sm={6}>
+            <Card className={classes.cardStyles}>
+              <CardMedia
+                className={classes.mediaStyles}
+                image="/images/pokemon_w.jpg"
+                title="Pokemon"
+              />
+            </Card>
+          </Grid>
+        </Grid>
+      </Grid>
+    </motion.div>
   );
 };
 
