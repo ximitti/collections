@@ -16,7 +16,7 @@ import { Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 // components
-import CardItem from "../CardItem";
+import CardItem from "../CardPokemon";
 //--------------------------------------
 const useStyles = makeStyles(() => ({
   containerStyles: {

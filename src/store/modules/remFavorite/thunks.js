@@ -6,16 +6,11 @@ export const remAddFavThunk = (char) => (dispatch) => {
   const oldList = JSON.parse(localStorage.getItem("remFavorite")) || [];
   let newList = [];
 
-  console.log("adicionar parametro entrada :", char);
-  console.log("adicionar oldList entrada :", oldList);
-
   if (oldList.length) {
     newList = [...oldList, char];
   } else {
     newList.push(char);
   }
-
-  console.log("adicionar newList entrada :", newList);
 
   localStorage.setItem("remFavorite", JSON.stringify(newList));
   dispatch(remAddFavorite(newList));
