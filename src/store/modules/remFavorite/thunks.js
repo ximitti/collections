@@ -2,12 +2,12 @@
 import { remAddFavorite, remRemoveFavorite } from "./actions";
 
 //-------------------------------------------------------
-export const remAddFavThunk = (char) => (dispatch) => {
-  const oldList = JSON.parse(localStorage.getItem("remFavorite")) || [];
+export const remAddFavThunk = (char) => async (dispatch, getStore) => {
+  const { remFavorite } = await getStore();
   let newList = [];
 
-  if (oldList.length) {
-    newList = [...oldList, char];
+  if (remFavorite.length) {
+    newList = [...remFavorite, char];
   } else {
     newList.push(char);
   }
@@ -16,15 +16,16 @@ export const remAddFavThunk = (char) => (dispatch) => {
   dispatch(remAddFavorite(newList));
 };
 
-export const remRemoveFavThunk = (id) => (dispatch, getStore) => {
-  const oldList = JSON.parse(localStorage.getItem("remFavorite"));
+export const remRemoveFavThunk = (id) => async (dispatch, getStore) => {
+  const { remFavorite } = await getStore();
   let newList = [];
-  if (oldList.length < 2) {
+
+  if (remFavorite.length < 2) {
     localStorage.clear();
   } else {
-    newList = oldList.filter((char) => char.id !== id);
-    localStorage.setItem("remFavorite", JSON.stringify(newList));
+    newList = remFavorite.filter((char) => char.id !== id);
   }
 
+  localStorage.setItem("remFavorite", JSON.stringify(newList));
   dispatch(remRemoveFavorite(newList));
 };

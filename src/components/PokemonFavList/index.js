@@ -1,10 +1,9 @@
 // hooks
 // react redux
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 // material ui
-import { Box, Grid, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box } from "@material-ui/core";
 
 // components
 import CardItem from "../CardPokemon";
@@ -12,10 +11,10 @@ import CardItem from "../CardPokemon";
 
 //--------------------------------------------------------------
 const PokemonFavList = () => {
-  const dispatch = useDispatch();
   const pokemonFavorite = useSelector((state) => state.pokemonFavorite);
+
   return (
-    <Box>
+    <Box display="flex" flexWrap="wrap" p={2}>
       {pokemonFavorite.map((element) => (
         <CardItem character={element} favorite />
       ))}

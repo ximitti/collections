@@ -1,3 +1,6 @@
+// react
+import { useState } from "react";
+
 // material ui
 import {
   Card,
@@ -7,10 +10,11 @@ import {
   CardActions,
   Typography,
 } from "@material-ui/core";
+import StarsIcon from "@material-ui/icons/Stars";
 import { makeStyles } from "@material-ui/styles";
 
 // react redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // thunks
 import {
@@ -27,6 +31,7 @@ const useStyles = makeStyles({
     width: "100%",
     height: "100%",
     border: "1px solid black",
+    margin: 5,
   },
   mediaStyles: {
     height: 190,
@@ -43,13 +48,19 @@ const useStyles = makeStyles({
 const CardItem = ({ character, favorite = false }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const favoriteList = useSelector((state) => state.pokemonFavorite);
+  const [isFavorite, setIsFavorite] = useState(() =>
+    favoriteList.some((char) => char.id === character.id)
+  );
 
   const onAdd = () => {
     dispatch(pokemonAddFavThunk(character));
+    setIsFavorite(true);
   };
 
   const onRemove = () => {
     dispatch(pokemonRemoveFavThunk(character.id));
+    setIsFavorite(false);
   };
 
   return (
@@ -70,9 +81,15 @@ const CardItem = ({ character, favorite = false }) => {
             Remover
           </Button>
         ) : (
-          <Button onClick={onAdd} size="small" color="primary">
-            Adicionar
-          </Button>
+          <>
+            {isFavorite ? (
+              <StarsIcon />
+            ) : (
+              <Button onClick={onAdd} size="small" color="primary">
+                Adicionar
+              </Button>
+            )}
+          </>
         )}
       </CardActions>
     </Card>

@@ -2,12 +2,12 @@
 import { pokemonAddFavorite, pokemonRemoveFavorite } from "./actions";
 
 //-------------------------------------------------------
-export const pokemonAddFavThunk = (char) => (dispatch) => {
-  const oldList = JSON.parse(localStorage.getItem("pokemonFavorite")) || [];
+export const pokemonAddFavThunk = (char) => async (dispatch, getStore) => {
+  const { pokemonFavorite } = await getStore();
   let newList = [];
 
-  if (oldList.length) {
-    newList = [...oldList, char];
+  if (pokemonFavorite.length) {
+    newList = [...pokemonFavorite, char];
   } else {
     newList.push(char);
   }
@@ -16,13 +16,14 @@ export const pokemonAddFavThunk = (char) => (dispatch) => {
   dispatch(pokemonAddFavorite(newList));
 };
 
-export const pokemonRemoveFavThunk = (id) => (dispatch, getStore) => {
-  const oldList = JSON.parse(localStorage.getItem("pokemonFavorite"));
+export const pokemonRemoveFavThunk = (id) => async (dispatch, getStore) => {
+  const { pokemonFavorite } = await getStore();
   let newList = [];
-  if (oldList.length < 2) {
+
+  if (pokemonFavorite.length < 2) {
     localStorage.clear();
   } else {
-    newList = oldList.filter((char) => char.id !== id);
+    newList = pokemonFavorite.filter((char) => char.id !== id);
     localStorage.setItem("pokemonFavorite", JSON.stringify(newList));
   }
 
