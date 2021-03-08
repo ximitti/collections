@@ -46,6 +46,7 @@ const RemList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const pokemonAPI = useSelector((state) => state.pokemonAPI);
+  const pokemonFavorite = useSelector((state) => state.pokemonFavorite);
 
   const previousPage = () => {
     dispatch(pokemonPreviousThunk());
@@ -83,17 +84,23 @@ const RemList = () => {
       </Grid>
       <Grid className={classes.containerStyles} item container spacing={2}>
         {pokemonAPI["results"] ? (
-          pokemonAPI.results.map((char, index) => (
-            <Grid
-              key={index}
-              className={classes.itemStyles}
-              item
-              xs={12}
-              sm={3}
-            >
-              <CardItem character={char} />
-            </Grid>
-          ))
+          pokemonAPI.results.map((character, index) => {
+            const itemFound = pokemonFavorite.some(
+              (char) => char.id === character.id
+            );
+
+            return (
+              <Grid
+                key={index}
+                className={classes.itemStyles}
+                item
+                xs={12}
+                sm={3}
+              >
+                <CardItem character={character} isFavorite={itemFound} />
+              </Grid>
+            );
+          })
         ) : (
           <Redirect to="/" />
         )}

@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // -------------------------------------
-const RemList = ({ favorite = false }) => {
+const RemList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const remAPI = useSelector((state) => state.remAPI);
@@ -62,36 +62,38 @@ const RemList = ({ favorite = false }) => {
 
   return (
     <Grid container spacing={4} direction="column">
-      {!favorite && (
-        <Grid className={classes.buttonContainerStyles} item container xs={12}>
-          <Grid item xs={6}>
-            <Button
-              disabled={!remAPI.info?.prev}
-              className={classes.buttonStyles}
-              variant="contained"
-              color="primary"
-              onClick={previousPage}
-            >
-              Previous
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button
-              disabled={!remAPI.info?.next}
-              className={classes.buttonStyles}
-              variant="contained"
-              color="primary"
-              onClick={nextPage}
-            >
-              Next
-            </Button>
-          </Grid>
+      <Grid className={classes.buttonContainerStyles} item container xs={12}>
+        <Grid item xs={6}>
+          <Button
+            disabled={!remAPI.info?.prev}
+            className={classes.buttonStyles}
+            variant="contained"
+            color="primary"
+            onClick={previousPage}
+          >
+            Previous
+          </Button>
         </Grid>
-      )}
-      {!favorite ? (
-        <Grid className={classes.containerStyles} item container spacing={2}>
-          {remAPI["results"] ? (
-            remAPI.results.map((char, index) => (
+        <Grid item xs={6}>
+          <Button
+            disabled={!remAPI.info?.next}
+            className={classes.buttonStyles}
+            variant="contained"
+            color="primary"
+            onClick={nextPage}
+          >
+            Next
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid className={classes.containerStyles} item container spacing={2}>
+        {remAPI["results"] ? (
+          remAPI.results.map((character, index) => {
+            const itemFound = remFavorite.some(
+              (char) => char.id === character.id
+            );
+
+            return (
               <Grid
                 key={index}
                 className={classes.itemStyles}
@@ -99,32 +101,14 @@ const RemList = ({ favorite = false }) => {
                 xs={12}
                 sm={3}
               >
-                <CardItem character={char} />
+                <CardItem character={character} isFavorite={itemFound} />
               </Grid>
-            ))
-          ) : (
-            <Redirect to="/" />
-          )}
-        </Grid>
-      ) : (
-        <Grid className={classes.containerStyles} item container spacing={2}>
-          {remFavorite.length ? (
-            remFavorite.map((char, index) => (
-              <Grid
-                key={index}
-                className={classes.itemStyles}
-                item
-                xs={12}
-                sm={3}
-              >
-                <CardItem character={char} favorite />
-              </Grid>
-            ))
-          ) : (
-            <Redirect to="/" />
-          )}
-        </Grid>
-      )}
+            );
+          })
+        ) : (
+          <Redirect to="/" />
+        )}
+      </Grid>
     </Grid>
   );
 };

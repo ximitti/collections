@@ -1,6 +1,3 @@
-// react
-import { useState } from "react";
-
 // material ui
 import {
   Card,
@@ -14,7 +11,7 @@ import StarsIcon from "@material-ui/icons/Stars";
 import { makeStyles } from "@material-ui/styles";
 
 // react redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // thunks
 import {
@@ -45,22 +42,16 @@ const useStyles = makeStyles({
   },
 });
 //------------------------------------------
-const CardItem = ({ character, favorite = false }) => {
+const CardItem = ({ character, favorite = false, isFavorite = false }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const favoriteList = useSelector((state) => state.remFavorite);
-  const [isFavorite, setIsFavorite] = useState(() =>
-    favoriteList.some((char) => char.id === character.id)
-  );
 
   const onAdd = () => {
     dispatch(remAddFavThunk(character));
-    setIsFavorite(true);
   };
 
   const onRemove = () => {
     dispatch(remRemoveFavThunk(character.id));
-    setIsFavorite(false);
   };
 
   return (
